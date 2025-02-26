@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import {computed} from 'vue'
+import {computed} from 'vue'  
     export default {
         name: "UserProfileInfo",
         props: {
@@ -57,6 +57,9 @@ img {
 }
 
 button {
-    padding: ;
+    padding: 2px 4px;
+    font-size: 12px;
+
+
 }
 </style>
