@@ -9,25 +9,43 @@
 </template>
 
 <script>
-import {ref} from 'vue';
+import { ref } from 'vue';
+import $ from 'jquery';
+import { useStore } from 'vuex';
 
-    export default {
-        name : "UserProfileWrite",
-        setup(_, context) {
-            let content = ref('');
-            const post_a_post = () => {
-                context.emit("post_a_post", content.value);
-                content.value = "";
-            }
-            return {
-                content,//content : content
-                post_a_post,
-            }
+export default {
+    name: "UserProfileWrite",
+    setup(props, context) {
+        const store = useStore();
+        let content = ref('');
+
+        const post_a_post = () => {
+            $.ajax({
+              url: "https://app165.acapp.acwing.com.cn/myspace/post/",
+              type: "POST",
+              data: {
+                content: content.value,
+              },
+              headers: {
+                'Authorization': "Bearer " + store.state.user.access,
+              },
+              success(resp) {
+                if (resp.result === "success") {
+                  context.emit('post_a_post', content.value);
+                  content.value = "";
+                }
+              }
+            });
+        };
+
+        return {
+            content,
+            post_a_post,
         }
-
-       
     }
+}
 </script>
+
 
 <style scoped>
 .write-field {
